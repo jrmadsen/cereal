@@ -22,9 +22,11 @@
 
 #ifdef __clang__
 CEREAL_RAPIDJSON_DIAG_PUSH
+// clang-format off
 CEREAL_RAPIDJSON_DIAG_OFF(padded)
-CEREAL_RAPIDJSON_DIAG_OFF(switch - enum)
-CEREAL_RAPIDJSON_DIAG_OFF(implicit - fallthrough)
+CEREAL_RAPIDJSON_DIAG_OFF(switch-enum)
+CEREAL_RAPIDJSON_DIAG_OFF(implicit-fallthrough)
+// clang-format on
 #elif defined(_MSC_VER)
 CEREAL_RAPIDJSON_DIAG_PUSH
 CEREAL_RAPIDJSON_DIAG_OFF(4512)  // assignment operator could not be generated
@@ -34,7 +36,9 @@ CEREAL_RAPIDJSON_DIAG_OFF(4512)  // assignment operator could not be generated
 CEREAL_RAPIDJSON_DIAG_PUSH
 CEREAL_RAPIDJSON_DIAG_OFF(effc++)
 #    if __GNUC__ >= 7
-CEREAL_RAPIDJSON_DIAG_OFF(implicit - fallthrough)
+// clang-format off
+CEREAL_RAPIDJSON_DIAG_OFF(implicit-fallthrough)
+// clang-format on
 #    endif
 #endif
 

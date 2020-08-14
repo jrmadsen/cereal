@@ -19,9 +19,11 @@
 #include "error.h"
 
 #ifdef __clang__
+// clang-format off
 CEREAL_RAPIDJSON_DIAG_PUSH
-CEREAL_RAPIDJSON_DIAG_OFF(switch - enum)
-CEREAL_RAPIDJSON_DIAG_OFF(covered - switch - default)
+CEREAL_RAPIDJSON_DIAG_OFF(switch-enum)
+CEREAL_RAPIDJSON_DIAG_OFF(covered-switch-default)
+// clang-format on
 #endif
 
 CEREAL_RAPIDJSON_NAMESPACE_BEGIN

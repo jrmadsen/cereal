@@ -62,10 +62,12 @@ CEREAL_RAPIDJSON_DIAG_OFF(effc++)
 #endif
 
 #ifdef __clang__
-CEREAL_RAPIDJSON_DIAG_OFF(weak - vtables)
-CEREAL_RAPIDJSON_DIAG_OFF(exit - time - destructors)
-CEREAL_RAPIDJSON_DIAG_OFF(c++ 98 - compat - pedantic)
-CEREAL_RAPIDJSON_DIAG_OFF(variadic - macros)
+// clang-format off
+CEREAL_RAPIDJSON_DIAG_OFF(weak-vtables)
+CEREAL_RAPIDJSON_DIAG_OFF(exit-time-destructors)
+CEREAL_RAPIDJSON_DIAG_OFF(c++98-compat-pedantic)
+CEREAL_RAPIDJSON_DIAG_OFF(variadic-macros)
+// clang-format on
 #elif defined(_MSC_VER)
 CEREAL_RAPIDJSON_DIAG_OFF(4512)  // assignment operator could not be generated
 #endif

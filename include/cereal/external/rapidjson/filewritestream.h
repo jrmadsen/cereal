@@ -21,7 +21,9 @@
 
 #ifdef __clang__
 CEREAL_RAPIDJSON_DIAG_PUSH
-CEREAL_RAPIDJSON_DIAG_OFF(unreachable - code)
+// clang-format off
+CEREAL_RAPIDJSON_DIAG_OFF(unreachable-code)
+// clang-format on
 #endif
 
 CEREAL_RAPIDJSON_NAMESPACE_BEGIN

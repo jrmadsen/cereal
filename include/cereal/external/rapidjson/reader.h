@@ -40,9 +40,11 @@
 
 #ifdef __clang__
 CEREAL_RAPIDJSON_DIAG_PUSH
-CEREAL_RAPIDJSON_DIAG_OFF(old - style - cast)
+// clang-format off
+CEREAL_RAPIDJSON_DIAG_OFF(old-style-cast)
 CEREAL_RAPIDJSON_DIAG_OFF(padded)
-CEREAL_RAPIDJSON_DIAG_OFF(switch - enum)
+CEREAL_RAPIDJSON_DIAG_OFF(switch-enum)
+// clang-format on
 #elif defined(_MSC_VER)
 CEREAL_RAPIDJSON_DIAG_PUSH
 CEREAL_RAPIDJSON_DIAG_OFF(4127)  // conditional expression is constant

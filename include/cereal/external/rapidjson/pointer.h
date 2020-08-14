@@ -21,7 +21,9 @@
 
 #ifdef __clang__
 CEREAL_RAPIDJSON_DIAG_PUSH
-CEREAL_RAPIDJSON_DIAG_OFF(switch - enum)
+// clang-format off
+CEREAL_RAPIDJSON_DIAG_OFF(switch-enum)
+// clang-format on
 #elif defined(_MSC_VER)
 CEREAL_RAPIDJSON_DIAG_PUSH
 CEREAL_RAPIDJSON_DIAG_OFF(4512)  // assignment operator could not be generated

@@ -28,14 +28,16 @@
 
 CEREAL_RAPIDJSON_DIAG_PUSH
 #ifdef __clang__
+// clang-format off
 CEREAL_RAPIDJSON_DIAG_OFF(padded)
-CEREAL_RAPIDJSON_DIAG_OFF(switch - enum)
-CEREAL_RAPIDJSON_DIAG_OFF(c++ 98 - compat)
+CEREAL_RAPIDJSON_DIAG_OFF(switch-enum)
+CEREAL_RAPIDJSON_DIAG_OFF(c++98-compat)
 #elif defined(_MSC_VER)
 CEREAL_RAPIDJSON_DIAG_OFF(4127)  // conditional expression is constant
 CEREAL_RAPIDJSON_DIAG_OFF(
     4244)  // conversion from kXxxFlags to 'uint16_t', possible loss of data
 #endif
+// clang-format on
 
 #ifdef __GNUC__
 CEREAL_RAPIDJSON_DIAG_OFF(effc++)

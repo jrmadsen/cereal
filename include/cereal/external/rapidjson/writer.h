@@ -39,9 +39,11 @@
 
 #ifdef __clang__
 CEREAL_RAPIDJSON_DIAG_PUSH
+// clang-format off
 CEREAL_RAPIDJSON_DIAG_OFF(padded)
-CEREAL_RAPIDJSON_DIAG_OFF(unreachable - code)
-CEREAL_RAPIDJSON_DIAG_OFF(c++ 98 - compat)
+CEREAL_RAPIDJSON_DIAG_OFF(unreachable-code)
+CEREAL_RAPIDJSON_DIAG_OFF(c++98-compat)
+// clang-format on
 #elif defined(_MSC_VER)
 CEREAL_RAPIDJSON_DIAG_PUSH
 CEREAL_RAPIDJSON_DIAG_OFF(4127)  // conditional expression is constant
