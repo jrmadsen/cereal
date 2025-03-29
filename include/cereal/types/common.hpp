@@ -30,7 +30,9 @@
 #ifndef CEREAL_TYPES_COMMON_HPP_
 #define CEREAL_TYPES_COMMON_HPP_
 
-#include "cereal/cereal.hpp"
+#ifndef CEREAL_CEREAL_HPP_
+#    include "cereal/cereal.hpp"
+#endif
 
 namespace cereal
 {
