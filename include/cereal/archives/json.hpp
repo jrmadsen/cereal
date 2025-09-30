@@ -31,6 +31,11 @@
 
 #include "cereal/cereal.hpp"
 #include "cereal/details/util.hpp"
+#include "cereal/macros.hpp"
+
+#include <iostream>
+#include <new>
+#include <optional>
 
 namespace cereal
 {
@@ -625,6 +630,22 @@ private:
                             std::string(searchName) + ") not found");
         }
 
+        inline bool search(const char* searchName, std::nothrow_t)
+        {
+            const auto len   = std::strlen(searchName);
+            for(auto it = itsMemberItBegin; it != itsMemberItEnd; ++it)
+            {
+                const auto* const currentName = it->name.GetString();
+                if((std::strncmp(searchName, currentName, len) == 0) &&
+                   (std::strlen(currentName) == len))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
     private:
         MemberIterator itsMemberItBegin,
             itsMemberItEnd;             //!< The member iterator (object)
@@ -665,6 +686,28 @@ private:
     }
 
 public:
+    inline bool search(const char* name, std::nothrow_t)
+    {
+        // The name an NVP provided with setNextName()
+        if(name)
+        {
+            // The actual name of the current node
+            const auto* const actualName = itsIteratorStack.back().name();
+
+            // Do a search if we don't see a name coming up, or if the names don't match
+            if(actualName && std::strcmp(name, actualName) == 0)
+            {
+                return true;
+            }
+            else if(!actualName || std::strcmp(name, actualName) != 0)
+            {
+                return itsIteratorStack.back().search(name, std::nothrow);
+            }
+        }
+
+        return false;
+    }
+
     //! Starts a new node, going into its proper iterator
     /*! This places an iterator for the next node to be parsed onto the iterator stack. If
        the next node is an array, this will be a value iterator, otherwise it will be a
@@ -1143,16 +1186,43 @@ template <class T, class W>
 inline void
 CEREAL_SAVE_FUNCTION_NAME(BaseJSONOutputArchive<W>& ar, NameValuePair<T> const& t)
 {
-    ar.setNextName(t.name);
-    ar(t.value);
+    if constexpr(traits::is_optional<T>::value)
+    {
+        if(t.value.has_value())
+        {
+            using value_type = typename traits::is_optional<T>::value_type;
+            auto _val        = make_nvp(t.name, t.value.value_or(value_type{}));
+            CEREAL_SAVE_FUNCTION_NAME(ar, _val);
+        }
+    }
+    else
+    {
+        ar.setNextName(t.name);
+        ar(t.value);
+    }
 }
 
 template <class T>
 inline void
 CEREAL_LOAD_FUNCTION_NAME(JSONInputArchive& ar, NameValuePair<T>& t)
 {
-    ar.setNextName(t.name);
-    ar(t.value);
+    if constexpr(traits::is_optional<T>::value)
+    {
+        using value_type = typename traits::is_optional<T>::value_type;
+        if(!ar.search(t.name, std::nothrow))
+        {
+            t.value.reset();
+            return;
+        }
+        auto _val   = make_nvp(t.name, t.value.value_or(value_type{}));
+        CEREAL_LOAD_FUNCTION_NAME(ar, _val);
+        t.value = _val.value;
+    }
+    else
+    {
+        ar.setNextName(t.name);
+        ar(t.value);
+    }
 }
 
 //! Saving for nullptr to JSON

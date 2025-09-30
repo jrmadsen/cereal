@@ -36,6 +36,7 @@
 #endif // gcc 4.7 or earlier
 #endif // __clang__
 
+#include <optional>
 #include <type_traits>
 #include <typeindex>
 
@@ -1325,6 +1326,27 @@ namespace cereal
     struct is_text_archive : std::integral_constant<bool,
       std::is_base_of<TextArchive, detail::decay_archive<A>>::value>
     { };
+
+    namespace detail
+    {
+    template <typename Tp>
+    struct is_optional : std::false_type
+    {
+      using value_type = Tp;
+    };
+
+    template <typename Tp>
+    struct is_optional<std::optional<Tp>> : std::true_type
+    {
+      using value_type = typename std::optional<Tp>::value_type;
+    };
+    }  // namespace detail
+
+    template <typename Tp>
+    struct is_optional
+    : detail::is_optional<std::remove_reference_t<std::remove_cv_t<std::decay_t<Tp>>>>
+    {};
+
   } // namespace traits
 
   // ######################################################################
